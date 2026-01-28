@@ -3,13 +3,14 @@
  * Please do not distribute beyond the CSci-4611 course
  */
 
+import { Texture } from '@gltf-transform/core';
 import * as gfx from 'gophergfx'
 
 
 export class GeometryApp extends gfx.GfxApp
 {   
     private enableWireframe = true;
-    private raindrop : gfx.Mesh2;
+    private text : gfx.Mesh2;
     //private raindrops = [];
  
     // --- Create the ExampleApp class ---
@@ -25,57 +26,59 @@ export class GeometryApp extends gfx.GfxApp
     createScene(): void {
         let gl  = this.renderer.gl;
 
-        this.raindrop = gfx.Geometry2Factory.createRect(0.5, 0.5); 
-        this.raindrop.material.texture = new gfx.Text("Abc",64,64,'25px Helvetica','red'); 
-        this.raindrop.material.color = gfx.Color.RED;
-        this.scene.add(this.raindrop);
-
+        // Add text to the scene
+        this.text = gfx.Geometry2Factory.createRect(0.5, 0.5); 
+        this.text.material.texture = new gfx.Text("Abc",64,64,'25px Helvetica','red'); 
+        this.text.material.color = gfx.Color.RED;
+        //this.scene.add(this.text);
+        //this.createWireframe(this.text);
 
         // Rectangle
         let rect = gfx.Geometry2Factory.createRect(1,1);
         rect.material.color = gfx.Color.RED;
+        //rect.material.texture = new gfx.Texture("assets/pac-background.png");
         rect.position = new gfx.Vector2(-0.5, 0.5);
         rect.scale = new gfx.Vector2(0.5, 0.5);
-        this.scene.add(rect);
-        this.createWireframe(rect);
+        //this.scene.add(rect);
+        //this.createWireframe(rect);
 
         // Circle
         let circle = gfx.Geometry2Factory.createCircle(0.5, 20);;
         circle.material.color = gfx.Color.RED;
         circle.position = new gfx.Vector2(0.5, 0.5);
         circle.scale = new gfx.Vector2(0.5, 0.5);
-        this.scene.add(circle);
-        this.createWireframe(circle);
+        //this.scene.add(circle);
+        //this.createWireframe(circle);
 
         // Pacman
         let pacman = gfx.Geometry2Factory.createPieSlice(0.5, Math.PI/4.0, 7.0*Math.PI/4.0, 0.2);
         pacman.material.color = gfx.Color.RED;
         pacman.position = new gfx.Vector2(-0.5, -0.5);
         pacman.scale = new gfx.Vector2(0.5, 0.5);
-        this.scene.add(pacman);
-        this.createWireframe(pacman);
+        //this.scene.add(pacman);
+        //this.createWireframe(pacman);
         
         // Curve
         let curve = this.createCurve();
         curve.material.color = gfx.Color.RED;
         curve.position = new gfx.Vector2(0.5, -0.5);
         curve.scale = new gfx.Vector2(0.5, 0.35);
-        this.scene.add(curve);
-        this.createWireframe(curve);
+        //this.scene.add(curve);
+        //this.createWireframe(curve);
 
         // Triangle Mesh
         let pumpkin = this.createPumpkinFace();
         pumpkin.material.color = gfx.Color.BLUE;
         pumpkin.scale = new gfx.Vector2(0.5, 0.35);
-        this.scene.add(pumpkin);
-        this.createWireframe(pumpkin);
+        //this.scene.add(pumpkin);
+        //this.createWireframe(pumpkin);
     }
 
     
 
     // --- Update is called once each frame by the main graphics loop ---
     update(deltaTime: number): void {
-        this.raindrop.position.y = this.raindrop.position.y - deltaTime;
+        //this.text.position.y = this.text.position.y - deltaTime;
     }
 
     createCurve(): Mesh2
