@@ -42,6 +42,9 @@ export class GeometryApp extends gfx.GfxApp
         //this.scene.add(rect);
         //this.createWireframe(rect);
 
+        // Simple Triangle (front / back faces)
+        // TODO: Create the simplest mesh
+
         // Circle
         let circle = gfx.Geometry2Factory.createCircle(0.5, 20);;
         circle.material.color = gfx.Color.RED;
