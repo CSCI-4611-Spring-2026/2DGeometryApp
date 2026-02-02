@@ -11,6 +11,7 @@ export class GeometryApp extends gfx.GfxApp
 {   
     private enableWireframe = true;
     private text : gfx.Mesh2;
+    private player : gfx.Mesh2;
     //private raindrops = [];
  
     // --- Create the ExampleApp class ---
@@ -28,30 +29,52 @@ export class GeometryApp extends gfx.GfxApp
 
         // Add text to the scene
         this.text = gfx.Geometry2Factory.createRect(0.5, 0.5); 
-        this.text.material.texture = new gfx.Text("Abc",64,64,'25px Helvetica','red'); 
+        this.text.material.texture = new gfx.Text("I want",64,64,'25px Helvetica','red'); 
         this.text.material.color = gfx.Color.RED;
         //this.scene.add(this.text);
         //this.createWireframe(this.text);
 
         // Rectangle
         let rect = gfx.Geometry2Factory.createRect(1,1);
-        rect.material.color = gfx.Color.RED;
-        //rect.material.texture = new gfx.Texture("assets/pac-background.png");
+        //rect.material.color = gfx.Color.RED;
+        rect.material.texture = new gfx.Texture("assets/sprites/player/player-simple-right.png");
         rect.position = new gfx.Vector2(-0.5, 0.5);
         rect.scale = new gfx.Vector2(0.5, 0.5);
-        //this.scene.add(rect);
+        this.scene.add(rect);
+        this.player = rect;
+        this.player.rotation = 3.14/4;
+
         //this.createWireframe(rect);
 
         // Simple Triangle (front / back faces)
         // TODO: Create the simplest mesh
+        let triangle = new gfx.Mesh2();
+        triangle.material.drawMode = this.renderer.gl.TRIANGLES;
+        const vertices: gfx.Vector2[] = [];
+        vertices.push(new gfx.Vector2(0,0)); // v1
+        vertices.push(new gfx.Vector2(1,1)); // v3
+        vertices.push(new gfx.Vector2(1,0)); // v2
+        triangle.setVertices(vertices);
+        this.scene.add(triangle);
+        this.createWireframe(triangle);
+
+        /*const triangle = new gfx.Mesh2();
+        triangle.material.drawMode = this.renderer.gl.TRIANGLES;
+        const vertices: gfx.Vector2[] = [];
+        vertices.push(new gfx.Vector2(0,0)); // v1
+        vertices.push(new gfx.Vector2(1,0)); // v2
+        vertices.push(new gfx.Vector2(1,1)); // v3
+        triangle.setVertices(vertices);
+        this.scene.add(triangle);*/
 
         // Circle
-        let circle = gfx.Geometry2Factory.createCircle(0.5, 20);;
+        let circle = gfx.Geometry2Factory.createCircle(0.5, 50);;
         circle.material.color = gfx.Color.RED;
         circle.position = new gfx.Vector2(0.5, 0.5);
         circle.scale = new gfx.Vector2(0.5, 0.5);
-        //this.scene.add(circle);
-        //this.createWireframe(circle);
+        circle.material.texture = new gfx.Texture("assets/sprites/player/player-simple-right.png");
+        this.scene.add(circle);
+        this.createWireframe(circle);
 
         // Pacman
         let pacman = gfx.Geometry2Factory.createPieSlice(0.5, Math.PI/4.0, 7.0*Math.PI/4.0, 0.2);
@@ -66,8 +89,8 @@ export class GeometryApp extends gfx.GfxApp
         curve.material.color = gfx.Color.RED;
         curve.position = new gfx.Vector2(0.5, -0.5);
         curve.scale = new gfx.Vector2(0.5, 0.35);
-        //this.scene.add(curve);
-        //this.createWireframe(curve);
+        this.scene.add(curve);
+        this.createWireframe(curve);
 
         // Triangle Mesh
         let pumpkin = this.createPumpkinFace();
@@ -82,6 +105,18 @@ export class GeometryApp extends gfx.GfxApp
     // --- Update is called once each frame by the main graphics loop ---
     update(deltaTime: number): void {
         //this.text.position.y = this.text.position.y - deltaTime;
+    }
+
+    onKeyDown(event: KeyboardEvent): void {
+        console.log(event);
+        if (event.key == "ArrowLeft") {
+            this.player.position.x -= 0.1;
+            this.player.material.texture = new gfx.Texture("assets/sprites/player/player-simple-left.png");
+        }
+        else if (event.key == "ArrowRight") {
+            this.player.position.x += 0.1;
+            this.player.material.texture = new gfx.Texture("assets/sprites/player/player-simple-right.png");    
+        }
     }
 
     createCurve(): Mesh2
